@@ -6,29 +6,69 @@ import api from '../api/ContextApi';
 const Component1 = () => {
   let { show, setShow } = useUser();
 
-  const handleClick = () => {
+  const handleClickShow = (e) => {
     setShow(!show);
+  };
 
-    let user = { id: '1', nome: 'José', email: 'jose@mail.com' };
-    fetch('http://localhost:3001/users'); // get
-    let headers = {};
-    fetch('http://localhost:3001/users', {
-      body: user,
-      method: 'POST',
-      headers,
-    }); // post
+  const handleClickListarUsuarios = (e) => {
+    // Get
+    // fetch('http://localhost:3001/users')
+    //   .then((response) => {
+    //     console.log(response.data);
+    //   })
+    //   .catch(); // get
 
-    api.get('users');
-    api.post('users', user);
+    api
+      .get('users/')
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleClickCadastrarUsuario = (e) => {
+    // Post
+    // let headers = {
+    //   Accept: 'application/json',
+    //   'Content-Type': 'application/json',
+    // };
+    // fetch('http://localhost:3001/users', {
+    //   body: user,
+    //   method: 'POST',
+    //   headers,
+    // }); // post
+    let user = { nome: 'José Antônio Oliveira', email: 'jao@mail.com' };
+    api
+      .post('users/', user)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
     <>
       <div>Teste</div>
-      <Button variant="primary" onClick={handleClick}>
-        Primary
+      <Button variant="primary" onClick={handleClickShow}>
+        Mudar Show
+      </Button>
+
+      <Button variant="success" onClick={handleClickListarUsuarios}>
+        Listar Usuários
+      </Button>
+
+      <Button variant="warning" onClick={handleClickCadastrarUsuario}>
+        Cadastrar Usuário
       </Button>
       <Component2></Component2>
+
+      <form></form>
+
+      <ul></ul>
     </>
   );
 };
