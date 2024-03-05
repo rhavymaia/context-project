@@ -1,12 +1,14 @@
 import { createContext, useContext, useState } from 'react';
+import api from '../api/ContextApi';
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   let [show, setShow] = useState(true);
 
-  const cadastrarUser = () => {
+  const cadastrarUser = async (user) => {
     console.log('Cadastro de User.');
+    await api.post('users', user);
   };
 
   return (
