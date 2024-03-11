@@ -1,3 +1,29 @@
 {
-  "users": [{ "id": "1", "nome": "João da Silva", "email": "joao@mail.com" }]
+  "users": [
+    {
+      "id": "1",
+      "nome": "João da Silva",
+      "email": "joao@mail.com"
+    },
+    {
+      "id": "c19f",
+      "nome": "José Antônio Oliveira",
+      "email": "jao@mail.com"
+    },
+    {
+      "id": "ab55",
+      "nome": "André Cardoso",
+      "email": "ac@mail.com"
+    },
+    {
+      "id": "bc4e",
+      "nome": "Mariana Silva",
+      "email": "ms@mail.com"
+    },
+    {
+      "id": "5c71",
+      "nome": "José Antônio Oliveira",
+      "email": "jao@mail.com"
+    }
+  ]
 }
