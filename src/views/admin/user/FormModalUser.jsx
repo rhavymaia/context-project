@@ -1,45 +1,29 @@
 import { Formik } from 'formik';
-import * as Yup from 'yup';
-import { Alert, Button, Container, Form } from 'react-bootstrap';
+import { Alert, Button, Container, Form, Toast } from 'react-bootstrap';
+import { useUser } from '../../UserContext';
+import { useState } from 'react';
 
 const FormModalUser = () => {
-  let initValues = { nome: '', email: '' };
+  let { blancUser, userValidationSchema, cadastrarUser } = useUser();
 
-  const handleSubmitUser = (values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+  const [showToast, setShowToast] = useState(false);
 
+  const handleSubmitUser = async (values, { setSubmitting, resetForm }) => {
+    try {
+      cadastrarUser(values);
       setSubmitting(false);
-    }, 400);
+      setShowToast(true);
+      resetForm();
+    } catch (error) {
+      const { response } = error;
+      const { request, ...errorObject } = response; // take everything but 'request'
+      console.log(errorObject);
+    }
   };
-
-  // locale i18n
-  Yup.setLocale({
-    string: {
-      default: 'Não é válido',
-      required: 'Campo obrigatório',
-      min: 'Tamanho mínimo não permitido',
-      max: 'Tamanho máximo não permitido',
-      email: 'Formato inválido',
-      matches: 'Somente letras',
-    },
-    mixed: {
-      default: 'Não é válido',
-      required: 'Campo obrigatório',
-    },
-    number: {
-      min: 'Deve ser maior que ${min}',
-    },
-  });
-
-  const userValidationSchema = Yup.object().shape({
-    nome: Yup.string().required().min(3).max(80).matches('/^[a-zA-Zs]+$/'),
-    email: Yup.string().email().required(),
-  });
 
   return (
     <Formik
-      initialValues={initValues}
+      initialValues={blancUser}
       onSubmit={handleSubmitUser}
       validationSchema={userValidationSchema}
     >
@@ -68,12 +52,14 @@ const FormModalUser = () => {
                   required
                 />
                 {errors.nome && touched.nome && (
-                  <Alert variant={'danger'}>* {errors.nome}</Alert>
+                  <Alert variant={'danger'} className="mt-2">
+                    * {errors.nome}
+                  </Alert>
                 )}
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
+                <Form.Label>E-mail</Form.Label>
                 <Form.Control
                   name="email"
                   value={values.email || ''}
@@ -84,7 +70,9 @@ const FormModalUser = () => {
                   required
                 />
                 {errors.email && touched.email && (
-                  <Alert variant={'danger'}>* {errors.email}</Alert>
+                  <Alert variant={'danger'} className="mt-2">
+                    * {errors.email}
+                  </Alert>
                 )}
               </Form.Group>
 
@@ -97,6 +85,21 @@ const FormModalUser = () => {
                 Cadastrar
               </Button>
             </Form>
+
+            {/* Toast */}
+            <Toast
+              onClose={() => setShowToast(false)}
+              show={showToast}
+              delay={5000}
+              className="d-inline-block m-1"
+              bg={'success'}
+              autohide
+            >
+              <Toast.Header>
+                <strong className="me-auto">Context Project</strong>
+              </Toast.Header>
+              <Toast.Body>Usuário cadastrado com sucesso!</Toast.Body>
+            </Toast>
           </Container>
         </>
       )}
