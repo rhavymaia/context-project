@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 import * as Yup from 'yup';
 
-import api from '../api/ContextApi';
+import api from '../../../api/ContextApi';
 
 const UserContext = createContext();
 
@@ -10,7 +10,11 @@ export const UserProvider = ({ children }) => {
 
   let blancUser = { nome: '', email: '' };
 
-  let [show, setShow] = useState(true);
+  let [show, setShow] = useState(false);
+
+  let handleShow = () => {
+    setShow(!show);
+  };
 
   const userValidationSchema = Yup.object().shape({
     nome: Yup.string().required().min(3).max(80),
@@ -41,6 +45,7 @@ export const UserProvider = ({ children }) => {
         blancUser,
         show,
         setShow,
+        handleShow,
         cadastrarUser,
         listarUsers,
         userValidationSchema,

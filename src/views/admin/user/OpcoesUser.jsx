@@ -1,38 +1,28 @@
 import { Button } from 'react-bootstrap';
-import api from '../../../api/ContextApi';
+import { useUser } from './UserContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
+import { faList, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const OpcoesUser = () => {
-  const handleClickListarUsuarios = (e) => {
-    api
-      .get('users/')
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  let { handleShow, listarUsers } = useUser();
 
-  const handleClickCadastrarUsuario = (e) => {
-    let user = { nome: 'José Antônio Oliveira', email: 'jao@mail.com' };
-    api
-      .post('users/', user)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const handleClickListarUsuarios = (e) => {
+    listarUsers();
   };
 
   return (
     <div>
-      <Button variant="success" onClick={handleClickListarUsuarios}>
-        Listar Usuários
+      <Button
+        variant="light"
+        className="m-2"
+        onClick={handleClickListarUsuarios}
+      >
+        <FontAwesomeIcon icon={faList} />
       </Button>
 
-      <Button variant="warning" onClick={handleClickCadastrarUsuario}>
-        Cadastrar Usuário
+      <Button variant="light" className="m-2" onClick={handleShow}>
+        <FontAwesomeIcon icon={faPlus} />
       </Button>
     </div>
   );
