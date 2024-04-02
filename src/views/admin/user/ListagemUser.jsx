@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import { useUser } from '../../UserContext';
 
 const ListagemUser = () => {
-  let { users, setUsers } = useUser();
-
-  let { listarUsers } = useUser();
+  let { users, listarUsers } = useUser();
 
   const columns = [
     {
@@ -34,10 +32,7 @@ const ListagemUser = () => {
   ];
 
   useEffect(() => {
-    console.log('Iniciando com o componente');
-    let users = listarUsers();
-    console.log(users);
-    setUsers([...users]);
+    listarUsers();
   }, []);
 
   return <DataTable columns={columns} data={users} />;

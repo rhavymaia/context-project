@@ -8,16 +8,16 @@ const FormModalUser = () => {
 
   const [showToast, setShowToast] = useState(false);
 
-  const handleSubmitUser = async (values, { setSubmitting, resetForm }) => {
+  const handleSubmitUser = async (e, values, { setSubmitting, resetForm }) => {
     try {
+      e.preventDefault();
       cadastrarUser(values);
       setSubmitting(false);
       setShowToast(true);
       resetForm();
     } catch (error) {
       const { response } = error;
-      const { request, ...errorObject } = response; // take everything but 'request'
-      console.log(errorObject);
+      const { request, ...errorObject } = response;
     }
   };
 

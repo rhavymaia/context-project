@@ -22,7 +22,15 @@ export const UserProvider = ({ children }) => {
   };
 
   const listarUsers = async () => {
-    return await api.get('users');
+    try {
+      // Requisição e resposta
+      let response = await api.get('users');
+      let data = response.data;
+      // Dados
+      setUsers([...data]);
+    } catch (error) {
+      console.log(error.response);
+    }
   };
 
   return (
